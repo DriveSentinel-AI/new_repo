@@ -1,0 +1,523 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+body {
+
+    font-family: Arial, Helvetica, sans-serif;
+
+    background:
+        linear-gradient(135deg,
+            #07111f,
+            #0d1728,
+            #111827);
+
+    color: white;
+
+    min-height: 100vh;
+}
+
+
+/* ================================
+   HEADER
+================================ */
+
+header {
+
+    height: 70px;
+
+    padding: 0 40px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    border-bottom: 1px solid #26364d;
+
+    background: rgba(5, 12, 24, 0.85);
+}
+
+
+.logo {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    font-size: 22px;
+
+    font-weight: bold;
+}
+
+
+.logo:first-letter {
+
+    font-size: 30px;
+}
+
+
+.system-status {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    font-size: 13px;
+
+    color: #7dd3fc;
+}
+
+
+.status-dot {
+
+    width: 9px;
+
+    height: 9px;
+
+    background: #22c55e;
+
+    border-radius: 50%;
+
+    box-shadow:
+        0 0 10px #22c55e;
+}
+
+
+/* ================================
+   MAIN
+================================ */
+
+main {
+
+    width: 92%;
+
+    max-width: 1400px;
+
+    margin: 35px auto;
+}
+
+
+.heading h1 {
+
+    font-size: 32px;
+
+    margin-bottom: 8px;
+}
+
+
+.heading p {
+
+    color: #94a3b8;
+
+    margin-bottom: 30px;
+}
+
+
+/* ================================
+   DASHBOARD
+================================ */
+
+.dashboard {
+
+    display: grid;
+
+    grid-template-columns:
+        2fr 1fr;
+
+    gap: 25px;
+}
+
+
+.camera-card,
+.status-card {
+
+    background: rgba(15, 27, 45, 0.9);
+
+    border: 1px solid #26364d;
+
+    border-radius: 18px;
+
+    padding: 20px;
+
+    box-shadow:
+        0 15px 40px rgba(0, 0, 0, 0.25);
+}
+
+
+.card-header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 18px;
+}
+
+
+.card-header h2 {
+
+    font-size: 19px;
+}
+
+
+.live {
+
+    color: #22c55e;
+
+    font-size: 12px;
+
+    font-weight: bold;
+}
+
+
+/* ================================
+   CAMERA
+================================ */
+
+.camera-container {
+
+    width: 100%;
+
+    aspect-ratio: 16 / 9;
+
+    overflow: hidden;
+
+    border-radius: 13px;
+
+    background: #020617;
+
+    border: 1px solid #334155;
+}
+
+
+.camera-container img {
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: cover;
+}
+
+
+.camera-footer {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    margin-top: 14px;
+
+    color: #64748b;
+
+    font-size: 12px;
+}
+
+
+/* ================================
+   DRIVER STATUS
+================================ */
+
+.status-box {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 18px;
+
+    padding: 20px;
+
+    border-radius: 14px;
+
+    margin-bottom: 25px;
+
+    transition: 0.3s;
+}
+
+
+.status-box.awake {
+
+    background: rgba(34, 197, 94, 0.10);
+
+    border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+
+.status-box.sleepy {
+
+    background: rgba(239, 68, 68, 0.12);
+
+    border: 1px solid rgba(239, 68, 68, 0.5);
+}
+
+
+.status-icon {
+
+    width: 50px;
+
+    height: 50px;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 25px;
+
+    background: #22c55e;
+}
+
+
+.status-box.sleepy .status-icon {
+
+    background: #ef4444;
+}
+
+
+.status-box h2 {
+
+    font-size: 25px;
+}
+
+
+.status-box p {
+
+    color: #94a3b8;
+
+    margin-top: 4px;
+}
+
+
+/* ================================
+   METRICS
+================================ */
+
+.metric {
+
+    margin-bottom: 22px;
+}
+
+
+.metric-top {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    margin-bottom: 9px;
+
+    color: #cbd5e1;
+}
+
+
+.metric-top strong {
+
+    color: white;
+}
+
+
+.progress {
+
+    height: 7px;
+
+    background: #1e293b;
+
+    border-radius: 10px;
+
+    overflow: hidden;
+}
+
+
+.progress-bar {
+
+    height: 100%;
+
+    width: 30%;
+
+    background: #38bdf8;
+
+    border-radius: 10px;
+
+    transition: width 0.3s;
+}
+
+
+/* ================================
+   ALERT
+================================ */
+
+.alert-box {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    background: #172235;
+
+    padding: 17px;
+
+    border-radius: 12px;
+
+    margin-top: 10px;
+}
+
+
+.alert-icon {
+
+    font-size: 25px;
+}
+
+
+.alert-box span {
+
+    display: block;
+
+    color: #94a3b8;
+
+    font-size: 13px;
+}
+
+
+.alert-box strong {
+
+    display: block;
+
+    font-size: 25px;
+
+    margin-top: 3px;
+}
+
+
+/* ================================
+   BOTTOM CARDS
+================================ */
+
+.bottom-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 18px;
+
+    margin-top: 25px;
+}
+
+
+.info-card {
+
+    background: rgba(15, 27, 45, 0.9);
+
+    border: 1px solid #26364d;
+
+    border-radius: 14px;
+
+    padding: 20px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+}
+
+
+.info-icon {
+
+    font-size: 28px;
+}
+
+
+.info-card p {
+
+    color: #94a3b8;
+
+    font-size: 13px;
+
+    margin-bottom: 5px;
+}
+
+
+.info-card strong {
+
+    color: #22c55e;
+
+    font-size: 13px;
+}
+
+
+/* ================================
+   FOOTER
+================================ */
+
+footer {
+
+    text-align: center;
+
+    padding: 25px;
+
+    color: #64748b;
+
+    font-size: 12px;
+}
+
+
+/* ================================
+   RESPONSIVE
+================================ */
+
+@media(max-width: 900px) {
+
+    .dashboard {
+
+        grid-template-columns: 1fr;
+    }
+
+
+    .bottom-grid {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+}
+
+
+@media(max-width: 600px) {
+
+    header {
+
+        padding: 0 20px;
+    }
+
+
+    main {
+
+        width: 94%;
+    }
+
+
+    .bottom-grid {
+
+        grid-template-columns: 1fr;
+    }
+
+}

@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Driver Fatigue Detection</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+     NAVBAR
+===================================================== -->
+
+    <header>
+
+        <div class="logo">
+
+            <span>
+                DriverGuard
+            </span>
+
+        </div>
+
+
+        <div class="system-status">
+
+            <span class="status-dot"></span>
+
+            SYSTEM ACTIVE
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+     MAIN
+===================================================== -->
+
+    <main>
+
+
+        <div class="heading">
+
+            <div>
+
+                <h1>
+                    Driver Fatigue Monitoring
+                </h1>
+
+                <p>
+                    Real-time AI-powered driver monitoring system
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+         DASHBOARD
+    ================================================= -->
+
+        <section class="dashboard">
+
+
+            <!-- CAMERA -->
+
+            <div class="camera-card">
+
+                <div class="card-header">
+
+                    <h2>
+                        📷 Live Camera
+                    </h2>
+
+                    <span class="live">
+                        ● LIVE
+                    </span>
+
+                </div>
+
+
+                <div class="camera-container">
+
+                    <img src="{{ url_for('video_feed') }}" id="camera">
+
+                </div>
+
+
+                <div class="camera-footer">
+
+                    <span>
+                        Camera: Laptop Webcam
+                    </span>
+
+                    <span>
+                        MediaPipe Face Mesh
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- STATUS -->
+
+            <div class="status-card">
+
+
+                <div class="card-header">
+
+                    <h2>
+                        Driver Status
+                    </h2>
+
+                </div>
+
+
+                <div id="status-box" class="status-box awake">
+
+                    <div id="status-icon" class="status-icon">
+                        ✓
+                    </div>
+
+
+                    <div>
+
+                        <h2 id="status">
+                            AWAKE
+                        </h2>
+
+                        <p id="status-text">
+                            Driver is alert
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- Eye -->
+
+                <div class="metric">
+
+                    <div class="metric-top">
+
+                        <span>
+                            👁 Eye Ratio
+                        </span>
+
+                        <strong id="eye">
+                            0.00
+                        </strong>
+
+                    </div>
+
+
+                    <div class="progress">
+
+                        <div id="eye-progress" class="progress-bar"></div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- Mouth -->
+
+                <div class="metric">
+
+                    <div class="metric-top">
+
+                        <span>
+                            👄 Mouth Ratio
+                        </span>
+
+                        <strong id="mouth">
+                            0.00
+                        </strong>
+
+                    </div>
+
+
+                    <div class="progress">
+
+                        <div id="mouth-progress" class="progress-bar"></div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- Alert -->
+
+                <div class="alert-box">
+
+                    <div class="alert-icon">
+                        ⚠️
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Drowsiness Alerts
+                        </span>
+
+                        <strong id="alerts">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+         BOTTOM CARDS
+    ================================================= -->
+
+        <section class="bottom-grid">
+
+
+            <div class="info-card">
+
+                <span class="info-icon">
+                    👁
+                </span>
+
+                <div>
+
+                    <p>
+                        Eye Monitoring
+                    </p>
+
+                    <strong>
+                        ACTIVE
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="info-card">
+
+                <span class="info-icon">
+                    👄
+                </span>
+
+                <div>
+
+                    <p>
+                        Mouth Monitoring
+                    </p>
+
+                    <strong>
+                        ACTIVE
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="info-card">
+
+                <span class="info-icon">
+                    🧠
+                </span>
+
+                <div>
+
+                    <p>
+                        Face Detection
+                    </p>
+
+                    <strong>
+                        ACTIVE
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="info-card">
+
+                <span class="info-icon">
+                    🔊
+                </span>
+
+                <div>
+
+                    <p>
+                        Safety Alarm
+                    </p>
+
+                    <strong>
+                        READY
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+    </main>
+
+
+    <footer>
+
+        DriverGuard • AI Driver Fatigue Detection System
+
+    </footer>
+
+
+    <script src="{{ url_for('static', filename='script.js') }}">
+    </script>
+
+
+</body>
+
+</html>
