@@ -2,20 +2,48 @@
 import streamlit as st
 import random
 import time
+import io
+import wave
+import math
+import base64
 from datetime import datetime
 from collections import deque
 
 st.set_page_config(page_title="DriveSentinel AI", page_icon="DS", layout="wide")
 
 
-try:
-    import av
-    import cv2
-    import numpy as np
-    from streamlit_webrtc import webrtc_streamer, WebRtcMode
-    CAMERA_READY = True
-except Exception:
-    CAMERA_READY = False
+# Use Streamlit's built-in browser camera.
+# This avoids native DLL dependencies such as av, cv2, and streamlit-webrtc.
+CAMERA_READY = True
+CAMERA_ERROR = ""
+
+
+def alarm_audio_html():
+    """Create a short repeating two-tone alarm as an in-memory WAV file."""
+    sample_rate = 22050
+    duration = 1.6
+    frames = []
+
+    for index in range(int(sample_rate * duration)):
+        t = index / sample_rate
+        frequency = 880 if int(t * 4) % 2 == 0 else 620
+        envelope = 0.42
+        sample = int(32767 * envelope * math.sin(2 * math.pi * frequency * t))
+        frames.append(sample.to_bytes(2, byteorder="little", signed=True))
+
+    buffer = io.BytesIO()
+    with wave.open(buffer, "wb") as wav_file:
+        wav_file.setnchannels(1)
+        wav_file.setsampwidth(2)
+        wav_file.setframerate(sample_rate)
+        wav_file.writeframes(b"".join(frames))
+
+    encoded = base64.b64encode(buffer.getvalue()).decode("ascii")
+    return f"""
+    <audio autoplay loop>
+        <source src="data:audio/wav;base64,{encoded}" type="audio/wav">
+    </audio>
+    """
 
 
 defaults = {
@@ -39,41 +67,272 @@ if not st.session_state.events:
 
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
-* {font-family: 'DM Sans', sans-serif;}
-.stApp {background: radial-gradient(circle at 85% 0%, #17314b55, transparent 32%), #070b13; color:#edf4ff;}
-[data-testid="stSidebar"] {background:#080e19; border-right:1px solid #1c2b40;}
-[data-testid="stSidebar"] * {color:#cbd8e8;}
-.brand {padding-bottom:22px;border-bottom:1px solid #1d2b40;margin-bottom:22px;}
-.brand b {font-family:'Space Grotesk';font-size:23px;letter-spacing:-1px;}
-.brand b span {color:#51d7ff;}
-.brand small {display:block;color:#657c96;font-size:9px;letter-spacing:2px;margin-top:7px;}
-.eyebrow {color:#51d7ff;font-size:10px;font-weight:700;letter-spacing:2px;}
-.sub {color:#8195ad;font-size:12px;margin-bottom:24px;}
-.card,.kpi {background:linear-gradient(145deg,#111c2d,#0b1422);border:1px solid #1e3047;border-radius:17px;padding:20px;}
-.kpi {min-height:112px;}
-.label {font-size:9px;letter-spacing:1.2px;color:#8197b0;font-weight:700;}
-.value {font-family:'Space Grotesk';font-size:29px;font-weight:700;margin-top:13px;}
-.note {font-size:10px;color:#6f849c;margin-top:5px;}
-.head {display:flex;justify-content:space-between;align-items:center;margin-bottom:17px;}
-.title {font-family:'Space Grotesk';font-size:14px;font-weight:600;}
-.caption {font-size:10px;color:#71869f;margin-top:4px;}
-.pill {border:1px solid #28604d;background:#123126;color:#55e3a5;border-radius:20px;padding:7px 11px;font-size:9px;font-weight:700;}
-.status {padding:18px;border-radius:13px;margin-bottom:18px;background:#45e0a00e;border:1px solid #45e0a044;}
-.status strong {display:block;color:#45e0a0;font-family:'Space Grotesk';font-size:26px;margin-top:7px;}
-.metric-line {display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid #1b2b40;font-size:11px;}
-.metric-line span:first-child {color:#7890aa;font-size:10px;}
-.metric-line span:last-child {color:#e4edf8;font-weight:600;}
-.event {padding:10px 0;border-bottom:1px solid #1b2b40;}
-.event small {color:#657e99;font-size:9px;}
-.event p {margin:4px 0 0;color:#d7e4f3;font-size:11px;}
-div.stButton>button {background:#10243a;border:1px solid #2b4b68;border-radius:10px;color:#dceeff;font-size:11px;}
-.camera-note {padding:14px;border:1px dashed #31516e;border-radius:12px;color:#91a8c0;font-size:12px;text-align:center;}
-.risk-chip {display:inline-block;padding:5px 9px;border-radius:20px;background:#241b0b;color:#ffc857;border:1px solid #6a4b18;font-size:9px;font-weight:700;}
-.feature-box {background:#0b1625;border:1px solid #20364e;border-radius:12px;padding:14px;min-height:90px;}
-.feature-box b {font-family:'Space Grotesk';font-size:22px;}
-.feature-box span {display:block;color:#8195ad;font-size:10px;margin-top:5px;}
-.alert-box {background:#3a171d;border:1px solid #8d303d;color:#ff9ca7;border-radius:12px;padding:14px;font-size:12px;}
+:root {
+    --ink: #edf3ff;
+    --muted: #9eabc0;
+    --line: #34435b;
+    --paper: #101827;
+    --card: #1b2638;
+    --navy: #263b63;
+    --blue: #3f6fd9;
+    --teal: #178f8b;
+    --amber: #c58a24;
+    --red: #c94b55;
+}
+
+* {
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+.stApp {
+    background: linear-gradient(135deg, #0e1727 0%, #15233a 55%, #101827 100%);
+    color: var(--ink);
+}
+
+[data-testid="stSidebar"] {
+    background: #202d47;
+    border-right: 1px solid #172238;
+}
+
+[data-testid="stSidebar"] * {
+    color: #e9eef8;
+}
+
+[data-testid="stSidebar"] .stRadio label {
+    padding: 7px 8px;
+    border-radius: 6px;
+}
+
+.block-container {
+    max-width: 1450px;
+    padding: 2.2rem 2.6rem;
+}
+
+.brand {
+    padding-bottom: 20px;
+    border-bottom: 1px solid #40506b;
+    margin-bottom: 22px;
+}
+
+.brand b {
+    font-size: 22px;
+    letter-spacing: -0.6px;
+    color: #ffffff;
+}
+
+.brand b span {
+    color: #66d2c7;
+}
+
+.brand small {
+    display: block;
+    color: #aab7ce;
+    font-size: 9px;
+    letter-spacing: 1.6px;
+    margin-top: 7px;
+}
+
+.eyebrow {
+    color: #60749a;
+    font-size: 10px;
+    font-weight: 750;
+    letter-spacing: 1.7px;
+}
+
+.sub {
+    color: var(--muted);
+    font-size: 13px;
+    margin-bottom: 25px;
+}
+
+.card, .kpi {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 21px;
+    box-shadow: 0 3px 12px rgba(36, 52, 78, 0.045);
+}
+
+.kpi {
+    min-height: 116px;
+    border-top: 3px solid #dbe5f6;
+}
+
+.label {
+    font-size: 10px;
+    letter-spacing: 1.1px;
+    color: #78849a;
+    font-weight: 750;
+}
+
+.value {
+    font-size: 29px;
+    font-weight: 750;
+    margin-top: 12px;
+    color: var(--ink);
+    letter-spacing: -0.7px;
+}
+
+.note {
+    font-size: 11px;
+    color: #8993a5;
+    margin-top: 5px;
+}
+
+.head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 17px;
+}
+
+.title {
+    font-size: 15px;
+    font-weight: 750;
+    color: #edf3ff;
+}
+
+.caption {
+    font-size: 11px;
+    color: #8993a5;
+    margin-top: 4px;
+}
+
+.pill {
+    border: 1px solid #b8e1dc;
+    background: #e9f8f5;
+    color: #167d77;
+    border-radius: 20px;
+    padding: 6px 11px;
+    font-size: 9px;
+    font-weight: 750;
+}
+
+.status {
+    padding: 19px;
+    border-radius: 10px;
+    margin-bottom: 18px;
+    background: #edf7f5;
+    border: 1px solid #c9e6e0;
+}
+
+.status strong {
+    display: block;
+    color: #167d77;
+    font-size: 26px;
+    margin-top: 7px;
+}
+
+.metric-line {
+    display: flex;
+    justify-content: space-between;
+    padding: 11px 0;
+    border-bottom: 1px solid #edf0f5;
+    font-size: 11px;
+}
+
+.metric-line span:first-child {
+    color: #78849a;
+    font-size: 10px;
+}
+
+.metric-line span:last-child {
+    color: #dbe6f7;
+    font-weight: 650;
+}
+
+.event {
+    padding: 11px 0;
+    border-bottom: 1px solid #edf0f5;
+}
+
+.event small {
+    color: #8993a5;
+    font-size: 9px;
+}
+
+.event p {
+    margin: 4px 0 0;
+    color: #d4deed;
+    font-size: 11px;
+}
+
+div.stButton > button {
+    background: #223149;
+    border: 1px solid #465a78;
+    border-radius: 7px;
+    color: #30415f;
+    font-size: 12px;
+    font-weight: 600;
+    transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+div.stButton > button:hover {
+    border-color: var(--blue);
+    background: #29456e;
+    color: #2f5fc3;
+}
+
+.camera-note {
+    padding: 15px;
+    border: 1px dashed #b8c5d8;
+    border-radius: 9px;
+    background: #162236;
+    color: #7a879c;
+    font-size: 12px;
+    text-align: center;
+}
+
+.risk-chip {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 20px;
+    background: #fff5df;
+    color: #a26c13;
+    border: 1px solid #efd8a6;
+    font-size: 9px;
+    font-weight: 750;
+}
+
+.feature-box {
+    background: #1b2638;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 15px;
+    min-height: 92px;
+}
+
+.feature-box b {
+    font-size: 23px;
+    color: var(--ink);
+}
+
+.feature-box span {
+    display: block;
+    color: #8993a5;
+    font-size: 10px;
+    margin-top: 5px;
+}
+
+.alert-box {
+    background: #fff0f1;
+    border: 1px solid #efc4c8;
+    color: #b13f4b;
+    border-radius: 9px;
+    padding: 14px;
+    font-size: 12px;
+}
+
+[data-testid="stMetric"] {
+    background: #1b2638;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 12px;
+}
+
+[data-testid="stProgressBar"] > div > div {
+    background: var(--teal);
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -88,7 +347,7 @@ with st.sidebar:
     sensitivity = st.select_slider("Detection sensitivity", ["Low", "Balanced", "High"], value="Balanced")
     st.session_state.monitoring = st.toggle("Monitoring active", value=st.session_state.monitoring)
     st.markdown("---")
-    st.caption("Vision engine: Ready" if CAMERA_READY else "Vision engine: Install camera packages")
+    st.caption("Camera input: Browser mode")
     st.caption("Alert service: Ready")
     st.caption("Prototype mode")
 
@@ -119,6 +378,22 @@ for col, (name, value, desc) in zip([q1, q2, q3, q4], quick):
 if st.button("Refresh sensor simulation"):
     st.rerun()
 
+# Additional operational indicators.
+session_mode = "Active monitoring" if st.session_state.monitoring else "Monitoring paused"
+risk_band = "Low exposure" if fatigue < 35 else "Review recommended" if fatigue < 65 else "Immediate attention"
+st.markdown(
+    f'<div class="card" style="margin: 18px 0;">'
+    f'<div class="head"><div><div class="title">Operational snapshot</div>'
+    f'<div class="caption">Quick status indicators for the current driving session</div></div>'
+    f'<span class="risk-chip">{risk_band}</span></div>'
+    f'<div class="metric-line"><span>Session mode</span><span>{session_mode}</span></div>'
+    f'<div class="metric-line"><span>Driver profile</span><span>{driver}</span></div>'
+    f'<div class="metric-line"><span>Vehicle identifier</span><span>{vehicle}</span></div>'
+    f'<div class="metric-line"><span>Detection profile</span><span>{sensitivity}</span></div>'
+    f'</div>',
+    unsafe_allow_html=True
+)
+
 kpis = [
     ("DRIVER STATE", state, "Current classification"),
     ("FATIGUE INDEX", f"{fatigue}%", "Simulated risk score"),
@@ -139,39 +414,52 @@ with left:
     st.markdown('<div class="card"><div class="head"><div><div class="title">Live driver camera</div><div class="caption">Webcam stream with optional visual overlay</div></div><span class="pill">● CAMERA</span></div>', unsafe_allow_html=True)
 
     if page in ["Dashboard", "Live Camera"]:
-        if CAMERA_READY:
-            rtc_config = {"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]}
+        st.info(
+            "Use the browser camera button below. This mode does not require "
+            "WebRTC, PyAV, OpenCV, or native camera DLLs."
+        )
 
-            class VideoProcessor:
-                def recv(self, frame):
-                    image = frame.to_ndarray(format="bgr24")
-                    h, w = image.shape[:2]
+        captured_image = st.camera_input(
+            "Open camera and capture driver image",
+            key="driver_snapshot"
+        )
 
-                    # Futuristic overlay
-                    cv2.rectangle(image, (20, 20), (w - 20, h - 20), (80, 215, 255), 2)
-                    cv2.putText(image, "DRIVESENTINEL AI", (35, 55),
-                                cv2.FONT_HERSHEY_SIMPLEX, 0.7, (80, 215, 255), 2)
-                    cv2.putText(image, "FACE TRACKING / PROTOTYPE", (35, h - 35),
-                                cv2.FONT_HERSHEY_SIMPLEX, 0.55, (80, 215, 255), 1)
+        if captured_image is not None:
+            st.image(
+                captured_image,
+                caption="Captured driver image",
+                use_container_width=True
+            )
 
-                    return av.VideoFrame.from_ndarray(image, format="bgr24")
+            st.success(
+                "Image captured successfully. Live continuous video processing "
+                "requires a separately working WebRTC environment."
+            )
 
-            try:
-                webrtc_streamer(
-                    key="driver-camera",
-                    mode=WebRtcMode.SENDRECV,
-                    rtc_configuration=rtc_config,
-                    video_processor_factory=VideoProcessor,
-                    media_stream_constraints={"video": True, "audio": False},
-                    async_processing=True,
-                )
-            except Exception as camera_error:
-                st.warning("Live camera could not start. The rest of the dashboard is still available.")
-                st.code(str(camera_error), language="text")
-                st.info("Try refreshing the browser and allowing camera permission.")
+            st.markdown(
+                '<div class="metric-line"><span>Capture status</span><span>Received</span></div>'
+                '<div class="metric-line"><span>Input source</span><span>Browser camera</span></div>'
+                '<div class="metric-line"><span>Processing mode</span><span>Still image prototype</span></div>',
+                unsafe_allow_html=True
+            )
         else:
-            st.markdown('<div class="camera-note">Live camera packages are not installed. Use the installation commands below, then restart the app.</div>', unsafe_allow_html=True)
-            st.code("pip install streamlit-webrtc opencv-python av numpy", language="powershell")
+            st.markdown(
+                '<div class="camera-note">'
+                'Click the camera control, allow browser permission, and capture an image.'
+                '</div>',
+                unsafe_allow_html=True
+            )
+
+        with st.expander("If the camera button does not open"):
+            st.markdown(
+                """
+                1. Open the app using `localhost`, not a blocked remote URL.
+                2. Click the camera icon in the browser prompt.
+                3. Select **Allow** for camera permission.
+                4. Check Windows Settings → Privacy & security → Camera.
+                5. Make sure your browser is allowed to use the camera.
+                """
+            )
 
         st.markdown('</div>', unsafe_allow_html=True)
 
@@ -218,9 +506,13 @@ with right:
             (datetime.now().strftime("%H:%M:%S"), "Emergency fatigue alert triggered", "ALERT")
         )
         st.session_state.emergency = True
-        st.error("Simulated emergency alert triggered.")
+        st.rerun()
 
     if st.session_state.emergency:
+        st.error("Simulated emergency alert triggered.")
+        st.markdown(alarm_audio_html(), unsafe_allow_html=True)
+        st.warning("Emergency alarm is active. Click Clear emergency alert to stop it.")
+
         if st.button("Clear emergency alert", use_container_width=True):
             st.session_state.emergency = False
             st.rerun()
