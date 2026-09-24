@@ -15,6 +15,7 @@ try:
     CAMERA_READY = True
 except Exception:
     CAMERA_READY = False
+    
 
 
 defaults = {
