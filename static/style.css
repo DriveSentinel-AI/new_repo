@@ -1,3 +1,7 @@
+/* =========================================
+   RESET
+========================================= */
+
 * {
     margin: 0;
     padding: 0;
@@ -6,270 +10,56 @@
 
 
 body {
-
     font-family: Arial, Helvetica, sans-serif;
 
-    background:
-        linear-gradient(135deg,
-            #07111f,
-            #0d1728,
-            #111827);
+    background: #f4f6f8;
 
-    color: white;
+    color: #202938;
 
     min-height: 100vh;
 }
 
 
-/* ================================
+/* =========================================
    HEADER
-================================ */
+========================================= */
 
-header {
+.topbar {
+    height: 68px;
 
-    height: 70px;
+    padding: 0 5%;
 
-    padding: 0 40px;
+    background: #ffffff;
+
+    border-bottom: 1px solid #dfe4e9;
 
     display: flex;
 
     align-items: center;
 
     justify-content: space-between;
-
-    border-bottom: 1px solid #26364d;
-
-    background: rgba(5, 12, 24, 0.85);
 }
 
 
-.logo {
+/* BRAND */
 
+.brand {
     display: flex;
 
     align-items: center;
 
-    gap: 12px;
-
-    font-size: 22px;
-
-    font-weight: bold;
+    gap: 11px;
 }
 
 
-.logo:first-letter {
+.brand-logo {
+    width: 38px;
 
-    font-size: 30px;
-}
+    height: 38px;
 
+    background: #315f91;
 
-.system-status {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 8px;
-
-    font-size: 13px;
-
-    color: #7dd3fc;
-}
-
-
-.status-dot {
-
-    width: 9px;
-
-    height: 9px;
-
-    background: #22c55e;
-
-    border-radius: 50%;
-
-    box-shadow:
-        0 0 10px #22c55e;
-}
-
-
-/* ================================
-   MAIN
-================================ */
-
-main {
-
-    width: 92%;
-
-    max-width: 1400px;
-
-    margin: 35px auto;
-}
-
-
-.heading h1 {
-
-    font-size: 32px;
-
-    margin-bottom: 8px;
-}
-
-
-.heading p {
-
-    color: #94a3b8;
-
-    margin-bottom: 30px;
-}
-
-
-/* ================================
-   DASHBOARD
-================================ */
-
-.dashboard {
-
-    display: grid;
-
-    grid-template-columns:
-        2fr 1fr;
-
-    gap: 25px;
-}
-
-
-.camera-card,
-.status-card {
-
-    background: rgba(15, 27, 45, 0.9);
-
-    border: 1px solid #26364d;
-
-    border-radius: 18px;
-
-    padding: 20px;
-
-    box-shadow:
-        0 15px 40px rgba(0, 0, 0, 0.25);
-}
-
-
-.card-header {
-
-    display: flex;
-
-    justify-content: space-between;
-
-    align-items: center;
-
-    margin-bottom: 18px;
-}
-
-
-.card-header h2 {
-
-    font-size: 19px;
-}
-
-
-.live {
-
-    color: #22c55e;
-
-    font-size: 12px;
-
-    font-weight: bold;
-}
-
-
-/* ================================
-   CAMERA
-================================ */
-
-.camera-container {
-
-    width: 100%;
-
-    aspect-ratio: 16 / 9;
-
-    overflow: hidden;
-
-    border-radius: 13px;
-
-    background: #020617;
-
-    border: 1px solid #334155;
-}
-
-
-.camera-container img {
-
-    width: 100%;
-
-    height: 100%;
-
-    object-fit: cover;
-}
-
-
-.camera-footer {
-
-    display: flex;
-
-    justify-content: space-between;
-
-    margin-top: 14px;
-
-    color: #64748b;
-
-    font-size: 12px;
-}
-
-
-/* ================================
-   DRIVER STATUS
-================================ */
-
-.status-box {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 18px;
-
-    padding: 20px;
-
-    border-radius: 14px;
-
-    margin-bottom: 25px;
-
-    transition: 0.3s;
-}
-
-
-.status-box.awake {
-
-    background: rgba(34, 197, 94, 0.10);
-
-    border: 1px solid rgba(34, 197, 94, 0.3);
-}
-
-
-.status-box.sleepy {
-
-    background: rgba(239, 68, 68, 0.12);
-
-    border: 1px solid rgba(239, 68, 68, 0.5);
-}
-
-
-.status-icon {
-
-    width: 50px;
-
-    height: 50px;
-
-    border-radius: 50%;
+    color: #ffffff;
 
     display: flex;
 
@@ -277,247 +67,949 @@ main {
 
     justify-content: center;
 
-    font-size: 25px;
+    font-size: 12px;
 
-    background: #22c55e;
+    font-weight: bold;
+
+    border-radius: 5px;
 }
 
 
-.status-box.sleepy .status-icon {
+.brand-text h2 {
+    font-size: 17px;
 
-    background: #ef4444;
+    font-weight: 600;
+
+    color: #1f2937;
 }
 
 
-.status-box h2 {
+.brand-text p {
+    margin-top: 2px;
 
-    font-size: 25px;
+    font-size: 10px;
+
+    color: #8a94a3;
 }
 
 
-.status-box p {
+/* HEADER RIGHT */
 
-    color: #94a3b8;
+.header-right {
+    display: flex;
+
+    align-items: center;
+
+    gap: 18px;
+}
+
+
+.camera-status {
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    color: #667180;
+
+    font-size: 11px;
+}
+
+
+.green-dot {
+    width: 7px;
+
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: #3a9b68;
+}
+
+
+.system-time {
+    padding-left: 18px;
+
+    border-left: 1px solid #e1e5ea;
+
+    color: #87909d;
+
+    font-size: 11px;
+}
+
+
+/* =========================================
+   MAIN
+========================================= */
+
+main {
+    width: 90%;
+
+    max-width: 1350px;
+
+    margin: 35px auto 45px;
+}
+
+
+/* =========================================
+   PAGE TITLE
+========================================= */
+
+.page-title {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-end;
+
+    margin-bottom: 27px;
+}
+
+
+.section-label {
+    display: block;
+
+    color: #5278a1;
+
+    font-size: 10px;
+
+    font-weight: bold;
+
+    letter-spacing: 1.1px;
+
+    margin-bottom: 7px;
+}
+
+
+.page-title h1 {
+    font-size: 29px;
+
+    font-weight: 600;
+
+    color: #202938;
+
+    margin-bottom: 7px;
+}
+
+
+.page-title>div>p:not(.section-label) {
+    color: #7d8794;
+
+    font-size: 13px;
+}
+
+
+/* SESSION */
+
+.session-info {
+    min-width: 130px;
+
+    padding: 11px 15px;
+
+    background: #ffffff;
+
+    border: 1px solid #dfe4e9;
+
+    border-radius: 5px;
+}
+
+
+.session-label {
+    display: block;
+
+    color: #9099a5;
+
+    font-size: 8px;
+
+    letter-spacing: 0.8px;
+
+    margin-bottom: 4px;
+}
+
+
+.session-info strong {
+    color: #31865a;
+
+    font-size: 11px;
+
+    font-weight: 600;
+}
+
+
+/* =========================================
+   MAIN GRID
+========================================= */
+
+.main-grid {
+    display: grid;
+
+    grid-template-columns: 1.85fr 1fr;
+
+    gap: 20px;
+}
+
+
+/* =========================================
+   PANELS
+========================================= */
+
+.camera-panel,
+.status-panel {
+    background: #ffffff;
+
+    border: 1px solid #dfe4e9;
+
+    border-radius: 7px;
+
+    padding: 19px;
+}
+
+
+/* =========================================
+   PANEL HEADER
+========================================= */
+
+.panel-header {
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: space-between;
+
+    margin-bottom: 16px;
+}
+
+
+.panel-header h2 {
+    color: #293344;
+
+    font-size: 16px;
+
+    font-weight: 600;
+}
+
+
+.panel-header p {
+    color: #929aa5;
+
+    font-size: 11px;
 
     margin-top: 4px;
 }
 
 
-/* ================================
-   METRICS
-================================ */
+/* LIVE */
 
-.metric {
-
-    margin-bottom: 22px;
-}
-
-
-.metric-top {
-
+.live-status {
     display: flex;
 
-    justify-content: space-between;
+    align-items: center;
 
-    margin-bottom: 9px;
+    gap: 5px;
 
-    color: #cbd5e1;
+    padding: 5px 8px;
+
+    background: #f1f8f4;
+
+    color: #34835a;
+
+    border-radius: 4px;
+
+    font-size: 9px;
+
+    font-weight: bold;
 }
 
 
-.metric-top strong {
+.live-status span {
+    width: 6px;
 
-    color: white;
+    height: 6px;
+
+    background: #3a9b68;
+
+    border-radius: 50%;
 }
 
 
-.progress {
+/* =========================================
+   CAMERA
+========================================= */
 
-    height: 7px;
+.camera-wrapper {
+    width: 100%;
 
-    background: #1e293b;
+    aspect-ratio: 16 / 9;
 
-    border-radius: 10px;
+    background: #e9edf1;
+
+    border: 1px solid #d6dce2;
 
     overflow: hidden;
+
+    border-radius: 5px;
 }
 
 
-.progress-bar {
+.camera-wrapper img {
+    width: 100%;
 
     height: 100%;
 
-    width: 30%;
+    display: block;
 
-    background: #38bdf8;
-
-    border-radius: 10px;
-
-    transition: width 0.3s;
+    object-fit: cover;
 }
 
 
-/* ================================
-   ALERT
-================================ */
+/* CAMERA INFO */
 
-.alert-box {
+.camera-info {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    margin-top: 15px;
+
+    padding-top: 14px;
+
+    border-top: 1px solid #e8ebee;
+}
+
+
+.camera-info div {
+    padding-left: 14px;
+
+    border-left: 1px solid #e4e8ec;
+}
+
+
+.camera-info div:first-child {
+    padding-left: 0;
+
+    border-left: none;
+}
+
+
+.camera-info span {
+    display: block;
+
+    color: #99a1ac;
+
+    font-size: 8px;
+
+    font-weight: bold;
+
+    letter-spacing: 0.7px;
+
+    margin-bottom: 4px;
+}
+
+
+.camera-info strong {
+    color: #566171;
+
+    font-size: 10px;
+
+    font-weight: 500;
+}
+
+
+.camera-info .connected {
+    color: #34835a;
+}
+
+
+/* =========================================
+   DRIVER RESULT
+========================================= */
+
+.driver-result {
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+
+    padding: 16px;
+
+    border-radius: 6px;
+
+    margin-bottom: 23px;
+
+    border: 1px solid;
+}
+
+
+.driver-result.awake {
+    background: #f3f8f5;
+
+    border-color: #d4e7dc;
+}
+
+
+.driver-result.sleepy {
+    background: #fff5f4;
+
+    border-color: #efd1cf;
+}
+
+
+/* RESULT ICON */
+
+.result-icon {
+    width: 42px;
+
+    height: 42px;
+
+    flex-shrink: 0;
 
     display: flex;
 
     align-items: center;
 
-    gap: 15px;
+    justify-content: center;
 
-    background: #172235;
+    border-radius: 50%;
 
-    padding: 17px;
+    background: #3a9b68;
 
-    border-radius: 12px;
+    color: #ffffff;
 
-    margin-top: 10px;
+    font-size: 18px;
+
+    font-weight: bold;
 }
 
 
-.alert-icon {
-
-    font-size: 25px;
+.driver-result.sleepy .result-icon {
+    background: #d45353;
 }
 
 
-.alert-box span {
+/* RESULT TEXT */
 
-    display: block;
+.result-content>span {
+    color: #87919e;
 
-    color: #94a3b8;
+    font-size: 8px;
 
-    font-size: 13px;
+    font-weight: bold;
+
+    letter-spacing: 0.8px;
 }
 
 
-.alert-box strong {
+.result-content h2 {
+    color: #263142;
 
-    display: block;
-
-    font-size: 25px;
+    font-size: 21px;
 
     margin-top: 3px;
 }
 
 
-/* ================================
-   BOTTOM CARDS
-================================ */
+.result-content p {
+    color: #74808e;
 
-.bottom-grid {
+    font-size: 11px;
 
-    display: grid;
-
-    grid-template-columns:
-        repeat(4, 1fr);
-
-    gap: 18px;
-
-    margin-top: 25px;
+    margin-top: 2px;
 }
 
 
-.info-card {
+/* =========================================
+   MEASUREMENTS
+========================================= */
 
-    background: rgba(15, 27, 45, 0.9);
+.measurement {
+    margin-bottom: 22px;
+}
 
-    border: 1px solid #26364d;
 
-    border-radius: 14px;
+.measurement-heading {
+    display: flex;
 
-    padding: 20px;
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-bottom: 8px;
+}
+
+
+.measurement-heading h3 {
+    color: #465160;
+
+    font-size: 12px;
+
+    font-weight: 600;
+}
+
+
+.measurement-heading p {
+    color: #9aa2ad;
+
+    font-size: 9px;
+
+    margin-top: 3px;
+}
+
+
+.measurement-heading>strong {
+    color: #344052;
+
+    font-size: 13px;
+
+    font-weight: 600;
+}
+
+
+/* BAR */
+
+.measurement-bar {
+    height: 5px;
+
+    width: 100%;
+
+    background: #e9edf1;
+
+    border-radius: 5px;
+
+    overflow: hidden;
+}
+
+
+.measurement-fill {
+    width: 30%;
+
+    height: 100%;
+
+    background: #5785b5;
+
+    border-radius: 5px;
+
+    transition: width 0.3s ease;
+}
+
+
+/* =========================================
+   ALERT
+========================================= */
+
+.alert-counter {
+    display: flex;
+
+    align-items: center;
+
+    gap: 11px;
+
+    padding: 12px;
+
+    margin-top: 3px;
+
+    background: #faf7f1;
+
+    border: 1px solid #eee3d1;
+
+    border-radius: 5px;
+}
+
+
+.alert-symbol {
+    width: 32px;
+
+    height: 32px;
 
     display: flex;
 
     align-items: center;
 
-    gap: 15px;
+    justify-content: center;
+
+    background: #f5e6cb;
+
+    color: #a87528;
+
+    border-radius: 50%;
+
+    font-weight: bold;
+
+    font-size: 14px;
 }
 
 
-.info-icon {
+.alert-details span {
+    display: block;
 
-    font-size: 28px;
+    color: #8e8a82;
+
+    font-size: 8px;
+
+    font-weight: bold;
+
+    letter-spacing: 0.7px;
 }
 
 
-.info-card p {
+.alert-details strong {
+    display: block;
 
-    color: #94a3b8;
+    color: #3c424c;
 
-    font-size: 13px;
+    font-size: 19px;
+
+    margin-top: 2px;
+}
+
+
+/* =========================================
+   DETAILS SECTION
+========================================= */
+
+.details-section {
+    margin-top: 34px;
+}
+
+
+.section-heading {
+    margin-bottom: 14px;
+}
+
+
+.section-heading h2 {
+    color: #303a49;
+
+    font-size: 17px;
+
+    font-weight: 600;
+}
+
+
+/* =========================================
+   COMPONENT GRID
+========================================= */
+
+.component-grid {
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 13px;
+}
+
+
+.component {
+    display: flex;
+
+    align-items: center;
+
+    min-width: 0;
+
+    gap: 10px;
+
+    padding: 15px;
+
+    background: #ffffff;
+
+    border: 1px solid #dfe4e9;
+
+    border-radius: 6px;
+}
+
+
+/* ICON */
+
+.component-icon {
+    width: 34px;
+
+    height: 34px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 5px;
+
+    font-size: 12px;
+
+    font-weight: bold;
+}
+
+
+.component-icon.blue {
+    background: #edf3fa;
+
+    color: #527ba6;
+}
+
+
+.component-icon.purple {
+    background: #f2eff8;
+
+    color: #766394;
+}
+
+
+.component-icon.green {
+    background: #edf6f1;
+
+    color: #4c8969;
+}
+
+
+.component-icon.orange {
+    background: #faf2e5;
+
+    color: #a8793b;
+}
+
+
+/* COMPONENT TEXT */
+
+.component-info {
+    flex: 1;
+
+    min-width: 0;
+}
+
+
+.component-info h3 {
+    color: #4a5565;
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+    white-space: nowrap;
+}
+
+
+.component-info p {
+    color: #929aa5;
+
+    font-size: 9px;
+
+    margin-top: 4px;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+}
+
+
+/* STATE */
+
+.component-state {
+    color: #39825b;
+
+    font-size: 8px;
+
+    font-weight: bold;
+
+    text-transform: uppercase;
+}
+
+
+/* =========================================
+   INFORMATION
+========================================= */
+
+.information {
+    display: flex;
+
+    gap: 13px;
+
+    margin-top: 20px;
+
+    padding: 16px;
+
+    background: #f8fafb;
+
+    border: 1px solid #dfe5ea;
+
+    border-radius: 6px;
+}
+
+
+.information-mark {
+    width: 28px;
+
+    height: 28px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: #e9f0f7;
+
+    color: #52789f;
+
+    border-radius: 50%;
+
+    font-size: 12px;
+
+    font-weight: bold;
+}
+
+
+.information h3 {
+    color: #4b5665;
+
+    font-size: 12px;
 
     margin-bottom: 5px;
 }
 
 
-.info-card strong {
+.information p {
+    color: #7c8794;
 
-    color: #22c55e;
+    font-size: 11px;
 
-    font-size: 13px;
+    line-height: 1.6;
+
+    max-width: 900px;
 }
 
 
-/* ================================
+/* =========================================
    FOOTER
-================================ */
+========================================= */
 
 footer {
+    width: 90%;
 
-    text-align: center;
+    max-width: 1350px;
 
-    padding: 25px;
+    margin: 0 auto;
 
-    color: #64748b;
+    padding: 20px 0 28px;
 
-    font-size: 12px;
+    border-top: 1px solid #dfe4e9;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    color: #8a94a1;
+
+    font-size: 10px;
 }
 
 
-/* ================================
+footer strong {
+    color: #586473;
+
+    font-weight: 600;
+}
+
+
+footer span {
+    margin-left: 7px;
+}
+
+
+footer p {
+    color: #9aa2ad;
+}
+
+
+/* =========================================
    RESPONSIVE
-================================ */
+========================================= */
 
-@media(max-width: 900px) {
+@media (max-width: 1050px) {
 
-    .dashboard {
-
+    .main-grid {
         grid-template-columns: 1fr;
     }
 
-
-    .bottom-grid {
-
-        grid-template-columns:
-            repeat(2, 1fr);
+    .component-grid {
+        grid-template-columns: repeat(2, 1fr);
     }
 
 }
 
 
-@media(max-width: 600px) {
+@media (max-width: 700px) {
 
-    header {
-
+    .topbar {
         padding: 0 20px;
     }
 
-
-    main {
-
-        width: 94%;
+    .system-time {
+        display: none;
     }
 
+    main {
+        width: 92%;
 
-    .bottom-grid {
+        margin-top: 25px;
+    }
 
+    .page-title {
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 15px;
+    }
+
+    .page-title h1 {
+        font-size: 25px;
+    }
+
+    .camera-info {
         grid-template-columns: 1fr;
+
+        gap: 10px;
+    }
+
+    .camera-info div {
+        padding-left: 0;
+
+        border-left: none;
+    }
+
+    .component-grid {
+        grid-template-columns: 1fr;
+    }
+
+    footer {
+        width: 92%;
+
+        flex-direction: column;
+
+        gap: 8px;
+
+        align-items: flex-start;
+    }
+
+}
+
+
+@media (max-width: 450px) {
+
+    .brand-text p {
+        display: none;
+    }
+
+    .camera-status {
+        display: none;
     }
 
 }
