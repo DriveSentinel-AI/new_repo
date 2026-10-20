@@ -1,4 +1,13 @@
+<<<<<<< HEAD
 venv/
 __pycache__/
 *.pyc
 .env
+=======
+@"
+venv/
+.env
+__pycache__/
+*.pyc
+"@ | Out-File -Encoding utf8 .gitignore
+>>>>>>> f3bff669599429526970b1740068280583d03d17

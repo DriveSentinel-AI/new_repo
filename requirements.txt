@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 absl-py==2.5.0
 attrs==26.1.0
 blinker==1.9.0
@@ -37,3 +38,11 @@ sentencepiece==0.2.2
 six==1.17.0
 sounddevice==0.5.6
 Werkzeug==3.1.8
+=======
+pandas
+streamlit
+streamlit-webrtc
+opencv-python
+av
+numpy
+>>>>>>> f3bff669599429526970b1740068280583d03d17
